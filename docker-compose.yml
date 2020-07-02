@@ -1,0 +1,73 @@
+version: '3.0'
+services:
+  mainnet:
+    image: geth:latest
+    build: .
+    restart: always
+    ports:
+      - "30003:30003"
+      - "30303:30303"
+    volumes:
+      - "./config:/config"
+      - "./chaindata:/chaindata"
+    command:
+      - "geth"
+      - "--config"
+      - "/config/mainnet.toml"
+  rinkeby:
+    image: geth:latest
+    build: .
+    restart: always
+    ports:
+      - "30003:30003"
+      - "30303:30303"
+    volumes:
+      - "./config:/config"
+      - "./chaindata:/chaindata"
+    command:
+      - "geth"
+      - "--config"
+      - "/config/rinkeby.toml"
+  ropsten:
+    image: geth:latest
+    build: .
+    restart: always
+    ports:
+      - "30003:30003"
+      - "30303:30303"
+    volumes:
+      - "./config:/config"
+      - "./chaindata:/chaindata"
+    command:
+      - "geth"
+      - "--config"
+      - "/config/ropsten.toml"
+  privnet_init:
+    image: geth:latest
+    build: .
+    restart: always
+    volumes:
+      - "./config:/config"
+      - "./chaindata:/chaindata"
+    command: bash /config/init.sh
+  privnet:
+    image: geth:latest
+    build: .
+    restart: always
+    ports:
+      - "8545:8545"
+      - "8546:8546"
+    volumes:
+      - "./config:/config"
+      - "./chaindata:/chaindata"
+    command:
+      - "geth"
+      - "--config"
+      - "/config/privnet.toml"
+      - "--miner.etherbase"
+      - "0x75A009A95b8CE36896b7F43599aa25d3d2d20B90"
+      - "--unlock"
+      - "0x75A009A95b8CE36896b7F43599aa25d3d2d20B90"
+      - "--password"
+      - "/dev/null"
+      - "--mine"
