@@ -1,9 +1,11 @@
 version: '3.0'
 services:
   mainnet:
-    image: geth:latest
+    image: geth:1.10.8
     build: .
     restart: always
+    stop_signal: SIGINT
+    stop_grace_period: 30s
     ports:
       - "30003:30003"
       - "30303:30303"
@@ -15,9 +17,11 @@ services:
       - "--config"
       - "/config/mainnet.toml"
   rinkeby:
-    image: geth:latest
+    image: geth:1.10.8
     build: .
     restart: always
+    stop_signal: SIGINT
+    stop_grace_period: 30s
     ports:
       - "30003:30003"
       - "30303:30303"
@@ -29,9 +33,11 @@ services:
       - "--config"
       - "/config/rinkeby.toml"
   ropsten:
-    image: geth:latest
+    image: geth:1.10.8
     build: .
     restart: always
+    stop_signal: SIGINT
+    stop_grace_period: 30s
     ports:
       - "30003:30003"
       - "30303:30303"
@@ -43,17 +49,18 @@ services:
       - "--config"
       - "/config/ropsten.toml"
   privnet_init:
-    image: geth:latest
+    image: geth:1.10.8
     build: .
-    restart: always
     volumes:
       - "./config:/config"
       - "./chaindata:/chaindata"
     command: bash /config/init.sh
   privnet:
-    image: geth:latest
+    image: geth:1.10.8
     build: .
     restart: always
+    stop_signal: SIGINT
+    stop_grace_period: 30s
     ports:
       - "8545:8545"
       - "8546:8546"
